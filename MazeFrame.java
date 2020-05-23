@@ -1,45 +1,29 @@
-// Author: Kevin L
-// https://github.com/kle510
-// October 2016
-
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
 /*
    MazeFrame class
-   
    
    Shows the status of the maze search and the maze itself after a successful search. 
    A key listener is used to start the maze search.   
  */
 
 public class MazeFrame extends JFrame {
-
    private JLabel searchStatusLabel;  
-   
    private MazeComponent mazeComponent;
-   
    private Maze maze;
-
    private static final int FRAME_WIDTH = 500;
    private static final int FRAME_HEIGHT = 500;
-
    private static final String PROMPT_STRING = "Type any key to start maze search . . . ";
    private static final String SUCCESS_STRING = "Found the way out!";
    private static final String FAIL_STRING = "No path out of maze.";
    
    /*
-      Sets up the gui components with the given maze data. 
-      @param mazeData for details about what should be in this array see class comments in Maze.java
-      @param entryLoc the entry location of the maze
-      @param exitLoc the "exit" location of the maze
-      PRE: 0 <= entryLoc.getRow() < mazeData.length and 0 <= entryLoc.getCol() < mazeData[0].length
-         and 0 <= exitLoc.getRow() < mazeData.length and 0 <= exitLoc.getCol() < mazeData[0].length
-    */
+      Sets up the GUI components with the given maze data. 
+   */
    public MazeFrame(boolean[][] mazeData, MazeCoord entryLoc, MazeCoord exitLoc) {
 
       setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -52,18 +36,14 @@ public class MazeFrame extends JFrame {
       add(mazeComponent, BorderLayout.CENTER); 
 
       KeyAdapter listener = new MazeKeyListener(); 
-      addKeyListener(listener); // process keyboard input
+      addKeyListener(listener);
       setFocusable(true);
 
    }
    
-   
    /*
       getSearchMessage 
       returns the message to display for a successful or failed search.
-
-      @param success whether the search succeeded
-      @return the string to display
    */
    public String getSearchMessage(boolean success) {
       if (success) {
@@ -73,26 +53,16 @@ public class MazeFrame extends JFrame {
       }
    }
 
-   
-   class MazeKeyListener extends KeyAdapter { // inner class -- has access to outer
-                                              // object's instance variables
-      /*
-         keyPressed is called when the user types a character.
-         The action taken is to do the maze search, then update the display
-         according to the results of the search.
-         @param event  What the user typed.  Ignored here.
-       */
+   class MazeKeyListener extends KeyAdapter {
       public void keyPressed(KeyEvent event) {
          System.out.println("DEBUG: key pressed");
-         
-         System.out.println("DEBUG: doing maze search. . . "); 
-         boolean success = maze.search();     // maze defined in enclosing MazeFrame
-        
-         mazeComponent.repaint();  // update drawing to show the results
+         System.out.println("DEBUG: doing maze search. . . ");
+
+         boolean success = maze.search();
+         mazeComponent.repaint();
          
          System.out.println("DEBUG: " + getSearchMessage(success));
          searchStatusLabel.setText(getSearchMessage(success));
       }
    }
-    
 }

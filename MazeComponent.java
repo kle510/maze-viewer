@@ -1,7 +1,3 @@
-// Author: Kevin L
-// https://github.com/kle510
-// October 2016
-
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JComponent;
@@ -16,37 +12,19 @@ import java.util.ListIterator;
  * A component that displays the maze and path through it if one has been found.
  */
 public class MazeComponent extends JComponent {
+	
 	private Maze maze;
-
-	// where to start drawing maze in frame
 	private static final int START_X = 10;
 	private static final int START_Y = 10;
-
-	// width and height of one maze unit
 	private static final int BOX_WIDTH = 20;
 	private static final int BOX_HEIGHT = 20;
-
-	// how much smaller on each side to make entry/exit inner box
 	private static final int INSET = 2;
 	private static final int REDUCEBOX = 2 * INSET;
 
-	/**
-	 * Constructs the component.
-	 * 
-	 * @param maze,
-	 *            the maze to display
-	 */
 	public MazeComponent(Maze mazeDisplay) {
 		maze = mazeDisplay;
 	}
 
-	/**
-	 * Draws the current state of maze including the path through it if one has
-	 * been found.
-	 * 
-	 * @param g,
-	 *            the graphics context
-	 */
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 
@@ -61,7 +39,6 @@ public class MazeComponent extends JComponent {
 			for (int j = 0; j < maze.numCols(); j++) {
 				if (maze.hasWallAt(new MazeCoord(i, j)) == true) {
 					g2.fillRect(START_X + j * BOX_HEIGHT, START_Y + i * BOX_WIDTH, BOX_HEIGHT, BOX_WIDTH);
-
 				}
 			}
 		}
@@ -91,7 +68,6 @@ public class MazeComponent extends JComponent {
 			// Draw line between first and second MazeCoord and update values
 			// until there are no more values in linked list
 			while (iterator.hasNext()) {
-
 				MazeCoord path2 = iterator.next();
 
 				g2.drawLine(START_X + path1.getCol() * BOX_HEIGHT + BOX_HEIGHT / 2,
@@ -100,18 +76,10 @@ public class MazeComponent extends JComponent {
 						START_Y + path2.getRow() * BOX_WIDTH + BOX_WIDTH / 2);
 
 				path1 = path2;
-
 			}
 			
-			//reset linked list
 			list.clear();
-			
-			//reset the search call to false so if you resize the GUI, the
-			//display path gets reset.
 			maze.pathDisplayCalled = false;
-
 		}
-
 	}
-
 }
